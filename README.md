@@ -32,10 +32,10 @@ Note: The `make_df_metrics.py` script is currently not implemented with Docker a
 
 ## Script Description
 
-make_df_metrics.py
+`make_df_metrics.py`:
 Il file make_df_metrics.py è responsabile della creazione di un DataFrame contenente le metriche di prestazioni del database. Questo script legge i dati generati dal benchmark e li elabora per creare un DataFrame che può essere utilizzato per l'ottimizzazione bayesiana. Nota: Questo script non è attualmente compatibile con Docker e deve essere eseguito manualmente al di fuori del container.
 
-bayes_runtime.py
+`bayes_runtime.py`:
 Il file bayes_runtime.py esegue l'ottimizzazione bayesiana sui dati generati dal benchmark. Questo script utilizza la libreria skopt per eseguire l'ottimizzazione e identificare la configurazione ottimale per il database
 
 ## Known Limitations

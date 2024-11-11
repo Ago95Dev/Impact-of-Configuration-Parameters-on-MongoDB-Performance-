@@ -49,7 +49,7 @@ space = [
 
 
 # Esecuzione dell'ottimizzazione bayesiana
-result = gp_minimize(objective, space, n_calls=10, random_state=None)
+result = gp_minimize(objective, space, n_calls=40, random_state=None)
 
 # Risultati
 print(f"Best Parameters Combination: {result.x}")

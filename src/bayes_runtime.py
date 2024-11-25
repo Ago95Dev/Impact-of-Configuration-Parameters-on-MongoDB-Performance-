@@ -5,12 +5,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Caricamento dei dati dal file CSV
-#file_path = '/home/agostino/config-params-impact-MongoDB/results/merged_data.csv'
-file_path = '/app/results/merged_data.csv'
+file_path = '/home/agostino/config-params-impact-MongoDB/results/merged_data.csv'
+#file_path = '/app/results/merged_data.csv'
 merged_df = pd.read_csv(file_path)
-
+count = 0
 # Funzione obiettivo che minimizza OVERALL_RunTime(ms)
 def objective(params):
+    global count
+    count=count+1
+    print(count, params)
     workload, write_concern, db_type, read_preference, threads, target, minutes = params
     
     # Filtrare il DataFrame per i valori specifici di ciascun parametro
@@ -29,12 +32,13 @@ def objective(params):
 
     # Calcolo della funzione obiettivo: minimizza runtime
     mean_runtime = subset['OVERALL_RunTime(ms)'].mean()
-    
   
     return mean_runtime 
+
     objective_value = (
         weights['runtime'] * mean_runtime 
     )
+   
 
 # Definizione dello spazio di ricerca per ogni parametro
 space = [
@@ -51,13 +55,22 @@ space = [
 # Esecuzione dell'ottimizzazione bayesiana
 result = gp_minimize(objective, space, n_calls=40, random_state=None)
 
-# Risultati
+# Risulta
 print(f"Best Parameters Combination: {result.x}")
 print(f"Best Objective Value: {result.fun}")
 
+# Calcola ad ogni iterazione il minimo di result.func_vals
+min_values = []
+for i in range(len(result.func_vals)):
+    min_values.append(min(result.func_vals[:i+1]))
+# Calcola a che iterazione si è raggiunto il minimo globale
+min_index = min_values.index(min(min_values))
+print(f"Minimum Value Reached at Iteration {min_index}")
+
 # Visualizzazione della convergenza
 plt.figure(figsize=(10, 6))
-plt.plot(result.func_vals)
+#plt.plot(result.func_vals)
+plt.plot(min_values)
 plt.title('Convergence Plot')
 plt.xlabel('Iteration')
 plt.ylabel('Objective Value OVERALL_RunTime(ms)')

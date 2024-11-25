@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 from skopt.space import Categorical
 
 # Caricamento dei dati dal file CSV
-#file_path = '/home/agostino/ycsb/results/merged_data.csv'
-file_path = '/app/results/merged_data.csv'
+file_path = '/home/agostino/ycsb/results/merged_data.csv'
+#file_path = '/app/results/merged_data.csv'
 merged_df = pd.read_csv(file_path)
 
 # Definizione dello spazio di ricerca per ogni parametro

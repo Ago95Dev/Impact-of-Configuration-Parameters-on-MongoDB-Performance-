@@ -7,8 +7,8 @@ import itertools
 import time
 
 # Percorso dei file di benchmark
-#directory_path = '/home/agostino/config-params-impact-MongoDB/results'
-directory_path = '/app/results/merged_data.csv'
+directory_path = '/home/agostino/config-params-impact-MongoDB/results'
+#directory_path = '/app/results/merged_data.csv'
 #baseline_file_path = os.path.join(directory_path, 'baseline.json')
 
 # Lista per i dati di tutti i file
@@ -16,7 +16,7 @@ data_list = []
 
 # Definizione dello spazio di ricerca
 param_grid = {
-    'workload': ['workloada', 'workloadb', ],
+    'workload': ['workloada'],
     'write_concern': ['unacknowledged', 'acknowledged', 'journaled', 'majority'],
     'db_type': ['mongodb'],
     'read_preference': ['primary', 'secondary', 'nearest'],
@@ -52,7 +52,7 @@ def run_benchmark_combination(params):
 
     # Comando per eseguire il benchmark
     workload_path = f'/home/agostino/ycsb/workloads/{workload}'
-    command = f'timeout -s SIGINT {minutes*60} /home/agostino/ycsb/bin/ycsb run {db_type} -P {workload_path} -p measurementtype=timeseries -s -threads {threads} -target {target} -p exportfile={result_filepath} -p exporter=site.ycsb.measurements.exporter.JSONArrayMeasurementsExporter -p mongodb.readPreference={read_preference}'
+    command = f'timeout -s SIGINT {minutes*60} /home/agostino/ycsb/bin/ycsb run {db_type} -P {workload_path} -p measurementtype=timeseries -s -threads {threads} -target {target} -p exportfile={result_filepath} -p exporter=site.ycsb.measurements.exporter.JSONArrayMeasurementsExporter -p mongodb.readPreference={read_preference} -p writeconcern={write_concern}'
     
     # Esegui il comando
     os.system(command)
